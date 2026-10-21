@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Design tokens
+   Borrows kova.me's structure (4px grid, 28px cards, pills, giant display
+   type) with its own warm palette, coral accent and type pairing.
+   ========================================================================== */
+
+:root {
+  /* Color — light */
+  --bg: #F6F3EE;
+  --surface: #FFFFFF;
+  --surface-2: #EDE8E0;
+  --ink: #1A1714;
+  --ink-muted: #6B635B;
+  --line: #E2DBD1;
+  --accent: #FF5A36;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #FFE3DB;
+  --accent-text: #D93A17; /* coral dark enough for text on --bg */
+
+  /* Typography */
+  --font-display: "Bricolage Grotesque", "Helvetica Neue", sans-serif;
+  --font-body: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: "JetBrains Mono", "SF Mono", ui-monospace, monospace;
+
+  --fs-hero: clamp(56px, 12vw, 176px);
+  --fs-display: clamp(48px, 9vw, 128px);
+  --fs-h2: clamp(32px, 5vw, 56px);
+  --fs-h3: clamp(20px, 2vw, 24px);
+  --fs-lead: clamp(17px, 1.4vw, 20px);
+  --fs-body: 16px;
+  --fs-small: 14px;
+  --fs-micro: 12px;
+
+  --lh-tight: 0.92;
+  --lh-snug: 1.15;
+  --lh-body: 1.6;
+
+  --tracking-display: -0.045em;
+  --tracking-heading: -0.025em;
+  --tracking-mono: 0.02em;
+
+  /* Space — 4px base */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+  --space-9: 56px;
+  --space-10: 80px;
+  --space-11: 120px;
+  --space-12: 160px;
+
+  /* Layout */
+  --container: 1280px;
+  --gutter: clamp(16px, 4vw, 40px);
+
+  /* Shape */
+  --radius-sm: 12px;
+  --radius-card: 28px;
+  --radius-pill: 999px;
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 180ms;
+  --dur-base: 320ms;
+  --dur-slow: 900ms;
+  --stagger: 60ms;
+
+  color-scheme: light;
+}
+
+/* Color — dark (system preference, unless forced light) */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141210;
+    --surface: #1E1B18;
+    --surface-2: #292521;
+    --ink: #F3EEE7;
+    --ink-muted: #A39A90;
+    --line: #34302B;
+    --accent: #FF6A48;
+    --accent-ink: #1A1714;
+    --accent-soft: #3A211A;
+    --accent-text: #FF7F61;
+    color-scheme: dark;
+  }
+}
+
+/* Color — dark (forced by toggle) */
+:root[data-theme="dark"] {
+  --bg: #141210;
+  --surface: #1E1B18;
+  --surface-2: #292521;
+  --ink: #F3EEE7;
+  --ink-muted: #A39A90;
+  --line: #34302B;
+  --accent: #FF6A48;
+  --accent-ink: #1A1714;
+  --accent-soft: #3A211A;
+  --accent-text: #FF7F61;
+  color-scheme: dark;
+}
