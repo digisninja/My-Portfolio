@@ -478,21 +478,62 @@ h3 { font-size: var(--fs-h3); }
 .marquee-track {
   display: flex;
   flex-shrink: 0;
-  gap: var(--space-9);
-  padding-right: var(--space-9);
-  animation: marquee 50s linear infinite;
+  align-items: flex-end;
+  gap: var(--space-10);
+  padding-right: var(--space-10);
+  animation: marquee 60s linear infinite;
 }
 .marquee:hover .marquee-track { animation-play-state: paused; }
-.marquee-track li {
-  font-family: var(--font-display);
-  font-size: clamp(24px, 3vw, 40px);
-  font-weight: 600;
-  letter-spacing: var(--tracking-heading);
+/* Each brand: logo in a fixed-height slot, name underneath */
+.logo {
+  --logo-h: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  min-width: 96px;
+}
+.logo img {
+  height: var(--logo-h);
+  width: auto;
+  max-width: 160px;
+  object-fit: contain;
+  /* one ink color for every brand; full color on hover */
+  filter: brightness(0);
+  opacity: 0.72;
+  transition: filter var(--dur-base) var(--ease-out),
+              opacity var(--dur-base) var(--ease-out),
+              transform var(--dur-base) var(--ease-out);
+}
+.logo-name {
+  font-family: var(--font-mono);
+  font-size: var(--fs-micro);
+  letter-spacing: var(--tracking-mono);
+  text-transform: uppercase;
   white-space: nowrap;
   color: var(--ink-muted);
   transition: color var(--dur-fast);
 }
-.marquee-track li:hover { color: var(--accent-text); }
+.logo:hover img { filter: none; opacity: 1; transform: translateY(-3px); }
+.logo:hover .logo-name { color: var(--accent-text); }
+
+/* Optical sizing: wide wordmarks shorter, tall marks taller */
+.logo-chrysler { --logo-h: 14px; }
+.logo-dodge { --logo-h: 15px; }
+.logo-veeva { --logo-h: 22px; }
+.logo-astellas, .logo-zayo, .logo-jeep { --logo-h: 30px; }
+.logo-abbvie, .logo-oracle, .logo-bankofamerica { --logo-h: 26px; }
+.logo-netsuite { --logo-h: 36px; }
+.logo-klick { --logo-h: 52px; }
+
+/* Single-color icons need inverting on dark backgrounds, including on hover */
+:root[data-theme="dark"] .logo img { filter: brightness(0) invert(1); }
+:root[data-theme="dark"] .logo:hover img { filter: brightness(0) invert(1); opacity: 1; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo img { filter: brightness(0) invert(1); }
+  :root:not([data-theme="light"]) .logo:hover img { filter: brightness(0) invert(1); opacity: 1; }
+}
 @keyframes marquee {
   to { transform: translateX(-100%); }
 }
