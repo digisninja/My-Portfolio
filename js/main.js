@@ -34,6 +34,8 @@
           if (/^\s+$/.test(part)) frag.appendChild(document.createTextNode(" "));
           else frag.appendChild(wrapWord(part, i++));
         });
+      } else if (node.nodeName === "BR") {
+        frag.appendChild(node); /* keep intentional line breaks */
       } else {
         frag.appendChild(wrapWord(node, i++));
       }
@@ -127,14 +129,45 @@
   /* ------------------------------------------------------------------
      Theme toggle (preference saved per browser)
      ------------------------------------------------------------------ */
-  var toggle = document.getElementById("theme-toggle");
-  if (toggle) {
+  document.querySelectorAll("[data-theme-toggle]").forEach(function (toggle) {
     toggle.addEventListener("click", function () {
       var current = root.dataset.theme ||
         (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
       var next = current === "dark" ? "light" : "dark";
       root.dataset.theme = next;
       try { localStorage.setItem("theme", next); } catch (e) {}
+    });
+  });
+
+  /* ------------------------------------------------------------------
+     Mobile menu
+     ------------------------------------------------------------------ */
+  var menuBtn = document.getElementById("menu-toggle");
+  var header = document.querySelector(".site-header");
+  if (menuBtn && header) {
+    var setMenu = function (open) {
+      header.classList.toggle("menu-open", open);
+      menuBtn.setAttribute("aria-expanded", String(open));
+      menuBtn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    };
+    menuBtn.addEventListener("click", function () {
+      setMenu(!header.classList.contains("menu-open"));
+    });
+    /* Close after choosing a section, on Escape, on outside click, or when widening to desktop */
+    document.querySelectorAll(".site-nav a").forEach(function (a) {
+      a.addEventListener("click", function () { setMenu(false); });
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && header.classList.contains("menu-open")) {
+        setMenu(false);
+        menuBtn.focus();
+      }
+    });
+    document.addEventListener("click", function (e) {
+      if (header.classList.contains("menu-open") && !header.contains(e.target)) setMenu(false);
+    });
+    window.matchMedia("(min-width: 961px)").addEventListener("change", function (e) {
+      if (e.matches) setMenu(false);
     });
   }
 
