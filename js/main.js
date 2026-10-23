@@ -84,6 +84,27 @@
   }
 
   /* ------------------------------------------------------------------
+     Highlight the nav link for the section in view
+     ------------------------------------------------------------------ */
+  var navLinks = document.querySelectorAll(".site-nav a");
+  if (navLinks.length && "IntersectionObserver" in window) {
+    var byId = {};
+    navLinks.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+    var navIo = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        navLinks.forEach(function (a) { a.classList.remove("is-active"); });
+        var link = byId[entry.target.id];
+        if (link) link.classList.add("is-active"); /* the hero clears it */
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    Object.keys(byId).concat("top").forEach(function (id) {
+      var section = document.getElementById(id);
+      if (section) navIo.observe(section);
+    });
+  }
+
+  /* ------------------------------------------------------------------
      Live local clock
      ------------------------------------------------------------------ */
   var clock = document.getElementById("clock");
