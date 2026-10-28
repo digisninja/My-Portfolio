@@ -763,9 +763,21 @@ section[id], footer[id] { scroll-margin-top: 96px; }
    ========================================================================== */
 
 .site-footer {
+  /* At least one screen tall (minus the 73px header) so the Contact link
+     can scroll it flush under the header, with nothing from Experience showing */
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100dvh - 73px);
   padding-block: var(--space-11) var(--space-8);
   border-top: 1px solid var(--line);
 }
+.site-footer > .container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+footer#contact { scroll-margin-top: 73px; }
 .footer-title {
   font-size: var(--fs-display);
   font-weight: 700;
@@ -780,7 +792,7 @@ section[id], footer[id] { scroll-margin-top: 96px; }
   gap: var(--space-3);
   margin-bottom: var(--space-11);
 }
-.footer-fine { color: var(--ink-muted); }
+.footer-fine { margin-top: auto; color: var(--ink-muted); }
 
 /* ==========================================================================
    Shared section bits
